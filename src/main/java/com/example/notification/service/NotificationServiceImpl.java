@@ -57,6 +57,10 @@ public class NotificationServiceImpl implements NotificationService {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
-        return Mono.just(ResponseEntity.ok(new NotificationResponse()));
+        return Mono.just(ResponseEntity.ok(
+                NotificationResponse.builder()
+                        .message("Email sent successfully to " + recipientEmail)
+                        .status("OK")
+                        .build()));
     }
 }
