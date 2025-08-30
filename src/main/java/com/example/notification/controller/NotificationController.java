@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/notification-service")
+@RequestMapping("/api/notify")
 @CrossOrigin
 public class NotificationController {
 
