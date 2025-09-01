@@ -22,7 +22,7 @@ public class NotificationServiceImpl implements NotificationService {
     public Mono<ResponseEntity<NotificationResponse>> sendNotificationByMail(NotificationRequest notificationRequest) {
         final String senderEmail = "dodmahima@gmail.com";       // sender email
         final String password = "ygok dcih tewh gxop";             // use App Password or Gmail password
-        final String recipientEmail = notificationRequest.getEmail();   // recipient email
+        final String recipientEmail = "dineshbisht035@gmail.com";   // recipient email
 
         // 1. SMTP Server Configuration
         Properties props = new Properties();
