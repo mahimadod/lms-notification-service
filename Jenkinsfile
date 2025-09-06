@@ -5,6 +5,7 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
         DOCKER_IMAGE = "mahimadod/lms-notification-service"
         JAVA_HOME = tool name: 'JDK21', type: 'jdk'
+        SONAR_TOKEN = credentials('sonarqube-token')
         MAVEN_HOME = tool name: 'Maven3.9.9', type: 'maven'
     }
 
@@ -49,6 +50,20 @@ pipeline {
                         }
                     }
                 }
+
+                stage('SonarQube Analysis') {
+                            steps {
+                                withSonarQubeEnv('SonarQube') {
+                                    bat """
+                                        mvn clean verify sonar:sonar ^
+                                            -Dsonar.projectKey=lms-notification-service ^
+                                            -Dsonar.host.url=%SONAR_HOST_URL% ^
+                                            -Dsonar.login=%SONAR_TOKEN%
+                                    """
+                                }
+                            }
+                        }
+
         stage('Docker Build & Push') {
             steps {
                 script {
