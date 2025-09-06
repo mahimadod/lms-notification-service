@@ -32,24 +32,23 @@ pipeline {
                                 withEnv([
                                     "JAVA_HOME=${env.JAVA_HOME}",
                                     "MAVEN_HOME=${env.MAVEN_HOME}",
-                                    "PATH=${env.JAVA_HOME}/bin:${env.MAVEN_HOME}/bin:$PATH"
+                                    "PATH=${env.JAVA_HOME}\\bin;${env.MAVEN_HOME}\\bin;%PATH%" // ✅ CHANGED FOR WINDOWS
                                 ]) {
-                                    sh 'mvn clean install --settings $MAVEN_SETTINGS'
-
-
+                                    // ❌ Old (for Unix): sh 'mvn clean install --settings $MAVEN_SETTINGS'
+                                    // ✅ NEW (for Windows):
+                                    bat 'mvn clean install --settings %MAVEN_SETTINGS%'
                                 }
                             }
                         }
                     }
                     post {
                         always {
-
+                            // ✅ MAKE SURE THIS PATTERN MATCHES YOUR FILES!
                             junit '**/target/surefire-reports/*.xml'
                             archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
                         }
                     }
                 }
-
         stage('Docker Build & Push') {
             steps {
                 script {
